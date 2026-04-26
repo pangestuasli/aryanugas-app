@@ -1,0 +1,44 @@
+/* Styling halaman */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Card Biodata */
+.card {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nama */
+.card h3 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* Paragraf */
+.card p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Garis */
+.card hr {
+    border: none;
+    height: 1px;
+    background: #ddd;
+    margin: 10px 0;
+}
+
+/* Judul halaman */
+h1 {
+    text-align: center;
+    color: #007bff;
+}

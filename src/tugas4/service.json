@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "name": "Rolls-Royce Phantom 2023",
+    "category": "Luxury Sedan",
+    "price": 8500000000,
+    "rating": 5.0,
+    "image": "https://picsum.photos/400/300?random=201",
+    "provider": {"company": "Luxury Motors", "location": "Jakarta"},
+    "contact": {"email": "sales@luxurymotors.com", "phone": "081234567890"},
+    "features": {"engine": "V12", "horsepower": 563, "top_speed": "250 km/h"}
+  },
+  {
+    "id": 2,
+    "name": "Ferrari SF90 Stradale 2022",
+    "category": "Supercar",
+    "price": 7200000000,
+    "rating": 4.9,
+    "image": "https://picsum.photos/400/300?random=202",
+    "provider": {"company": "Ferrari Indonesia", "location": "Jakarta"},
+    "contact": {"email": "jakarta@ferrari.com", "phone": "082345678901"},
+    "features": {"engine": "V8 Hybrid", "horsepower": 986, "top_speed": "340 km/h"}
+  },
+  {
+    "id": 3,
+    "name": "Lamborghini Aventador SVJ 2021",
+    "category": "Supercar",
+    "price": 8900000000,
+    "rating": 5.0,
+    "image": "https://picsum.photos/400/300?random=203",
+    "provider": {"company": "Lamborghini Lounge", "location": "Surabaya"},
+    "contact": {"email": "surabaya@lamborghini.com", "phone": "083456789012"},
+    "features": {"engine": "V12", "horsepower": 759, "top_speed": "350 km/h"}
+  },
+  {
+    "id": 4,
+    "name": "Bentley Continental GT 2023",
+    "category": "Grand Tourer",
+    "price": 5900000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=204",
+    "provider": {"company": "Bentley Jakarta", "location": "Jakarta"},
+    "contact": {"email": "info@bentleyjakarta.com", "phone": "084567890123"},
+    "features": {"engine": "W12", "horsepower": 650, "top_speed": "335 km/h"}
+  },
+  {
+    "id": 5,
+    "name": "Mercedes-Maybach S680 2023",
+    "category": "Luxury Sedan",
+    "price": 5400000000,
+    "rating": 4.9,
+    "image": "https://picsum.photos/400/300?random=205",
+    "provider": {"company": "Mercedes-Benz SCBD", "location": "Jakarta"},
+    "contact": {"email": "scbd@mercedes.com", "phone": "085678901234"},
+    "features": {"engine": "V12", "horsepower": 603, "top_speed": "250 km/h"}
+  },
+  {
+    "id": 6,
+    "name": "Porsche 911 Turbo S 2022",
+    "category": "Sports Car",
+    "price": 4800000000,
+    "rating": 4.9,
+    "image": "https://picsum.photos/400/300?random=206",
+    "provider": {"company": "Porsche Studio", "location": "Bandung"},
+    "contact": {"email": "bandung@porsche.com", "phone": "086789012345"},
+    "features": {"engine": "Flat-6 Twin Turbo", "horsepower": 640, "top_speed": "330 km/h"}
+  },
+  {
+    "id": 7,
+    "name": "Aston Martin DBS Superleggera 2021",
+    "category": "Grand Tourer",
+    "price": 6700000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=207",
+    "provider": {"company": "Aston Martin Bali", "location": "Bali"},
+    "contact": {"email": "bali@astonmartin.com", "phone": "087890123456"},
+    "features": {"engine": "V12", "horsepower": 715, "top_speed": "340 km/h"}
+  },
+  {
+    "id": 8,
+    "name": "McLaren 720S 2022",
+    "category": "Supercar",
+    "price": 6900000000,
+    "rating": 4.9,
+    "image": "https://picsum.photos/400/300?random=208",
+    "provider": {"company": "McLaren Jakarta", "location": "Jakarta"},
+    "contact": {"email": "sales@mclarenjakarta.com", "phone": "088901234567"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 710, "top_speed": "341 km/h"}
+  },
+  {
+    "id": 9,
+    "name": "BMW M8 Competition 2023",
+    "category": "Sports Car",
+    "price": 3900000000,
+    "rating": 4.7,
+    "image": "https://picsum.photos/400/300?random=209",
+    "provider": {"company": "BMW Alam Sutera", "location": "Tangerang"},
+    "contact": {"email": "alamsutera@bmw.com", "phone": "089012345678"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 617, "top_speed": "305 km/h"}
+  },
+  {
+    "id": 10,
+    "name": "Lexus LM 350 2023",
+    "category": "Luxury MPV",
+    "price": 2800000000,
+    "rating": 4.7,
+    "image": "https://picsum.photos/400/300?random=210",
+    "provider": {"company": "Lexus Medan", "location": "Medan"},
+    "contact": {"email": "medan@lexus.com", "phone": "081345678901"},
+    "features": {"engine": "V6", "horsepower": 296, "seat": 7, "captain_seat": true}
+  },
+  {
+    "id": 11,
+    "name": "Lamborghini Urus 2022",
+    "category": "Luxury SUV",
+    "price": 5400000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=211",
+    "provider": {"company": "Lamborghini Jakarta", "location": "Jakarta"},
+    "contact": {"email": "urus@lamborghini.com", "phone": "082456789012"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 641, "top_speed": "305 km/h"}
+  },
+  {
+    "id": 12,
+    "name": "Ferrari Roma 2022",
+    "category": "Grand Tourer",
+    "price": 4800000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=212",
+    "provider": {"company": "Ferrari Surabaya", "location": "Surabaya"},
+    "contact": {"email": "surabaya@ferrari.com", "phone": "083567890123"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 612, "top_speed": "320 km/h"}
+  },
+  {
+    "id": 13,
+    "name": "Porsche Cayenne Turbo GT 2023",
+    "category": "Luxury SUV",
+    "price": 4300000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=213",
+    "provider": {"company": "Porsche Surabaya", "location": "Surabaya"},
+    "contact": {"email": "sby@porsche.com", "phone": "084678901234"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 631, "top_speed": "300 km/h"}
+  },
+  {
+    "id": 14,
+    "name": "Rolls-Royce Cullinan 2023",
+    "category": "Luxury SUV",
+    "price": 7800000000,
+    "rating": 5.0,
+    "image": "https://picsum.photos/400/300?random=214",
+    "provider": {"company": "Rolls-Royce Jakarta", "location": "Jakarta"},
+    "contact": {"email": "rrjakarta@rollsroyce.com", "phone": "085789012345"},
+    "features": {"engine": "V12", "horsepower": 563, "top_speed": "250 km/h"}
+  },
+  {
+    "id": 15,
+    "name": "Audi RS7 Sportback 2023",
+    "category": "Sports Sedan",
+    "price": 3200000000,
+    "rating": 4.6,
+    "image": "https://picsum.photos/400/300?random=215",
+    "provider": {"company": "Audi Center", "location": "Jakarta"},
+    "contact": {"email": "jakarta@audi.com", "phone": "086890123456"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 591, "top_speed": "305 km/h"}
+  },
+  {
+    "id": 16,
+    "name": "Maserati MC20 2022",
+    "category": "Supercar",
+    "price": 5300000000,
+    "rating": 4.7,
+    "image": "https://picsum.photos/400/300?random=216",
+    "provider": {"company": "Maserati Bali", "location": "Bali"},
+    "contact": {"email": "bali@maserati.com", "phone": "087901234567"},
+    "features": {"engine": "V6 Twin Turbo", "horsepower": 621, "top_speed": "325 km/h"}
+  },
+  {
+    "id": 17,
+    "name": "Bentley Bentayga EWB 2023",
+    "category": "Luxury SUV",
+    "price": 6200000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=217",
+    "provider": {"company": "Bentley Surabaya", "location": "Surabaya"},
+    "contact": {"email": "sby@bentley.com", "phone": "088012345678"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 542, "seat": 5}
+  },
+  {
+    "id": 18,
+    "name": "Mercedes-AMG GT 63 S 2023",
+    "category": "Sports Sedan",
+    "price": 4100000000,
+    "rating": 4.7,
+    "image": "https://picsum.photos/400/300?random=218",
+    "provider": {"company": "AMG Center", "location": "Jakarta"},
+    "contact": {"email": "amg@mercedes.com", "phone": "089123456789"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 630, "top_speed": "315 km/h"}
+  },
+  {
+    "id": 19,
+    "name": "Aston Martin DBX707 2023",
+    "category": "Luxury SUV",
+    "price": 5800000000,
+    "rating": 4.8,
+    "image": "https://picsum.photos/400/300?random=219",
+    "provider": {"company": "Aston Martin Jakarta", "location": "Jakarta"},
+    "contact": {"email": "jkt@astonmartin.com", "phone": "081456789012"},
+    "features": {"engine": "V8 Twin Turbo", "horsepower": 697, "top_speed": "310 km/h"}
+  },
+  {
+    "id": 20,
+    "name": "Bugatti Chiron Sport 2021",
+    "category": "Hypercar",
+    "price": 19500000000,
+    "rating": 5.0,
+    "image": "https://picsum.photos/400/300?random=220",
+    "provider": {"company": "Bugatti Exclusive", "location": "Jakarta"},
+    "contact": {"email": "exclusive@bugatti.com", "phone": "082567890123"},
+    "features": {"engine": "W16 Quad Turbo", "horsepower": 1479, "top_speed": "420 km/h"}
+  }
+]
