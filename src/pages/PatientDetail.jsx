@@ -1,7 +1,6 @@
 import React from 'react';
 
 const PatientDetail = ({ patientId, onBack }) => {
-  // Simulasi data detail (nantinya bisa diambil berdasarkan ID)
   const patient = {
     id: 1,
     name: "Mochi",
@@ -36,10 +35,8 @@ const PatientDetail = ({ patientId, onBack }) => {
           <p className="text-emerald-600 font-medium">ID Pasien: #ANB-00{patient.id}</p>
         </div>
       </div>
-
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Kolom Kiri: Kartu Profil Utama */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
             <div className="w-24 h-24 bg-emerald-50 rounded-3xl flex items-center justify-center text-5xl mx-auto mb-4 border-2 border-emerald-100">

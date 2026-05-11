@@ -1,16 +1,27 @@
-import Sidebar from "../components/Sidebar";
+import React, { useState } from 'react';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
 const MainLayout = ({ children }) => {
-  return (
-    <div className="flex h-screen w-full bg-white overflow-hidden">
-      <Sidebar />
-      
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-      <main className="flex-1 bg-[#F8FAFC] overflow-y-auto p-10">
-        <div className="max-w-[1400px] mx-auto">
+  return (
+    <div className="flex min-h-screen bg-[#f4f7fe] text-slate-700 font-sans">
+      
+      {/* SIDEBAR */}
+      <Sidebar isOpen={isSidebarOpen} />
+
+      {/* CONTENT AREA */}
+      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
+        
+        {/* NAVBAR / HEADER */}
+        <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+
+        {/* PAGE CONTENT */}
+        <main className="p-8">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
