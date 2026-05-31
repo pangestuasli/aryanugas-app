@@ -1,8 +1,10 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import LoadingSpinner from './components/LoadingSpinner';
+import Components from './pages/Components';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Login = lazy(() => import('./pages/auth/LoginPage'));
@@ -13,9 +15,11 @@ const MedicineDetail = lazy(() => import('./pages/MedicineDetail'));
 
 const ProtectedRoute = ({ children }) => {
   const auth = sessionStorage.getItem('isLoggedIn');
+
   if (!auth) {
     return <Navigate to="/login" replace />;
   }
+
   return children;
 };
 
@@ -24,65 +28,36 @@ function App() {
     <Router>
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          
-          {/* Dashboard */}
-          <Route 
-            path="/" 
-            element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <Dashboard />
-                </MainLayout>
-              </ProtectedRoute>
-            } 
-          />
-          
-          {/* Pasien Section */}
-          <Route 
-            path="/patients" 
-            element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <Patients />
-                </MainLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/patients/:id" 
-            element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <PatientDetail />
-                </MainLayout>
-              </ProtectedRoute>
-            } 
-          />
 
-          {/* Stok Obat Section */}
-          <Route 
-            path="/medicines" 
-            element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <Medicines />
-                </MainLayout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/medicines/:id" 
-            element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <MedicineDetail />
-                </MainLayout>
-              </ProtectedRoute>
-            } 
-          />
+          {/* Auth Layout */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+          </Route>
 
+          {/* Main Layout */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <MainLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Dashboard */}
+            <Route path="/" element={<Dashboard />} />
+
+            {/* Patients */}
+            <Route path="/patients" element={<Patients />} />
+            <Route path="/patients/:id" element={<PatientDetail />} />
+
+            {/* Medicines */}
+            <Route path="/medicines" element={<Medicines />} />
+            <Route path="/medicines/:id" element={<MedicineDetail />} />
+            <Route path="/components" element={<Components />} />
+          </Route>
+
+          {/* Redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
+
         </Routes>
       </Suspense>
     </Router>

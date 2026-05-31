@@ -1,11 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Footer from '../components/Footer';
+import BarChart from '../components/BarChart';
+import DonutChart from '../components/DonutChart';
+import DateRangePicker from '../components/DateRangePicker';
 
 const Dashboard = () => {
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+
+  const weeklyData = [
+    { label: 'Sen', value: 60 },
+    { label: 'Sel', value: 45 },
+    { label: 'Rab', value: 95 },
+    { label: 'Kam', value: 70 },
+    { label: 'Jum', value: 85 },
+    { label: 'Sab', value: 40 },
+    { label: 'Min', value: 55 },
+  ];
+
+  const speciesData = [
+    { label: 'Kucing', value: 75, color: '#10b981' },
+    { label: 'Anjing', value: 15, color: '#f59e0b' },
+    { label: 'Lainnya', value: 10, color: '#94a3b8' },
+  ];
+
+  const handleDateRangeChange = ({ startDate, endDate }) => {
+    setDateRange({ startDate, endDate });
+    console.log('Date range selected:', { startDate, endDate });
+    // Di sini Anda bisa fetch data berdasarkan date range
+  };
+
   return (
     <div className="p-2 md:p-4">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-800">Ringkasan Klinik</h1>
         <p className="text-sm text-slate-400">Pantau kesehatan Anabul hari ini secara real-time.</p>
+      </div>
+
+      {/* Date Range Picker di Header */}
+      <div className="mb-6 flex justify-end">
+        <div className="w-80">
+          <DateRangePicker
+            startDate={dateRange.startDate}
+            endDate={dateRange.endDate}
+            onChange={handleDateRangeChange}
+            placeholder="Pilih tanggal laporan"
+            size="md"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
@@ -17,62 +58,54 @@ const Dashboard = () => {
         <StatCard icon="✨" title="Grooming" value="24" color="bg-pink-500" />
       </div>
 
-      {/* 3. CHART & ANALYTICS SECTION */}
+      {/* CHART & ANALYTICS SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        {/* Grafik Kunjungan (Gaya Bar Chart) */}
         <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-50">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-bold">Jumlah Pasien Hewan</h3>
               <p className="text-xs text-slate-400">Total Kunjungan Mingguan</p>
             </div>
-            <select className="bg-slate-50 border-none text-xs font-bold p-2 rounded-lg outline-none cursor-pointer hover:bg-slate-100 transition-colors">
-              <option>Mei 2026</option>
-            </select>
+            <span className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg">
+              Mei 2026
+            </span>
           </div>
           
-          <div className="h-64 flex items-end justify-around p-4 gap-3 bg-slate-50/50 rounded-2xl">
-            {[60, 45, 95, 70, 85, 40, 55].map((h, i) => (
-              <div key={i} className="group relative w-full flex flex-col items-center">
-                <div 
-                  className="w-full bg-emerald-500 rounded-t-lg transition-all duration-500 hover:bg-emerald-600 cursor-pointer shadow-lg shadow-emerald-100" 
-                  style={{ height: `${h}%` }}
-                ></div>
-                <span className="text-[10px] font-bold text-slate-400 mt-2">
-                  {['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'][i]}
-                </span>
-              </div>
-            ))}
-          </div>
+          <BarChart 
+            data={weeklyData}
+            barColor="bg-emerald-500"
+            showValues={false}
+            showLabels={true}
+            animate={true}
+          />
         </div>
 
         <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-50 flex flex-col items-center">
           <h3 className="text-lg font-bold w-full text-left">Jenis Hewan</h3>
-          <p className="text-xs text-slate-400 w-full text-left mb-10">Persentase Pasien Aktif</p>
+          <p className="text-xs text-slate-400 w-full text-left mb-6">Persentase Pasien Aktif</p>
           
-          <div className="relative flex items-center justify-center">
-            <div className="w-40 h-40 rounded-full border-[14px] border-slate-100 flex items-center justify-center">
-              <div className="absolute inset-0 border-[14px] border-emerald-500 rounded-full border-t-transparent border-l-transparent -rotate-45"></div>
-              <div className="text-center">
-                <p className="text-3xl font-bold">75%</p>
-                <p className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">Kucing</p>
-              </div>
-            </div>
-          </div>
+          <DonutChart 
+            data={speciesData}
+            size={160}
+            thickness={14}
+            showPercentage={true}
+            centerText="75%"
+            centerSubtext="Kucing"
+            animate={true}
+          />
           
           <div className="grid grid-cols-2 gap-4 mt-8 w-full">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
-              <span className="text-xs font-bold text-slate-600">Kucing</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-slate-200 rounded-full"></div>
-              <span className="text-xs font-bold text-slate-400">Lainnya</span>
-            </div>
+            {speciesData.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                <span className="text-xs font-bold text-slate-600">{item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
+      {/* Tabel Antrian */}
       <div className="bg-white rounded-3xl shadow-sm border border-slate-50 overflow-hidden">
         <div className="p-6 flex justify-between items-center">
           <div>
@@ -102,12 +135,12 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
 
-// --- SUB-KOMPONEN INTERNAL ---
-
+// StatCard Component
 const StatCard = ({ icon, title, value, color }) => (
   <div className="bg-white p-5 rounded-3xl shadow-sm border border-slate-50 flex flex-col gap-3 hover:translate-y-[-4px] transition-all cursor-default group">
     <div className={`w-12 h-12 ${color} rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-opacity-20`}>
@@ -120,6 +153,7 @@ const StatCard = ({ icon, title, value, color }) => (
   </div>
 );
 
+// PatientRow Component
 const PatientRow = ({ name, species, owner, issue, status, sColor, doctor }) => (
   <tr className="hover:bg-slate-50/50 transition-colors group">
     <td className="px-6 py-4">
