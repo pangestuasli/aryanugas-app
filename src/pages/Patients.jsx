@@ -46,9 +46,8 @@ const Patients = () => {
     address: '',
   });
 
-  // Simulasi fetch data
+  
   useEffect(() => {
-    // Simulasi loading page
     setTimeout(() => {
       setIsPageLoading(false);
     }, 1500);
