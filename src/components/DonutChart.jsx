@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 
 const DonutChart = ({
   data = [],
-  size = 160,
-  thickness = 14,
+  size = 180,
+  thickness = 16,
   showPercentage = true,
   centerText,
   centerSubtext,
   animate = true,
   animationDuration = 1000,
+  gap = 4, // Jarak antar segmen dalam derajat
   onSegmentClick,
 }) => {
   const [animatedData, setAnimatedData] = useState([]);
-  
+
   useEffect(() => {
     if (animate) {
       let currentValue = 0;
@@ -22,12 +23,15 @@ const DonutChart = ({
           clearInterval(interval);
           setAnimatedData(data);
         } else {
-          setAnimatedData(data.map(item => ({
-            ...item,
-            value: (item.value / 100) * currentValue
-          })));
+          setAnimatedData(
+            data.map((item) => ({
+              ...item,
+              value: (item.value / 100) * currentValue,
+            }))
+          );
         }
       }, animationDuration / 20);
+      return () => clearInterval(interval);
     } else {
       setAnimatedData(data);
     }
@@ -35,90 +39,88 @@ const DonutChart = ({
 
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const chartData = animate ? animatedData : data;
-  
+
   let cumulativePercentage = 0;
-  
-  const segments = chartData.map((item, index) => {
-    const percentage = (item.value / total) * 100;
-    const startAngle = cumulativePercentage * 3.6;
-    const endAngle = (cumulativePercentage + percentage) * 3.6;
-    cumulativePercentage += percentage;
-    
-    return {
-      ...item,
-      percentage,
-      startAngle,
-      endAngle,
-    };
-  });
 
-  const getCoordinates = (angle, radius) => {
-    const radian = (angle - 90) * Math.PI / 180;
+  // Kalkulasi koordinat polar ke kartesian untuk menggambar SVG Arc
+  const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
-      x: radius + radius * Math.cos(radian),
-      y: radius + radius * Math.sin(radian),
+      x: centerX + radius * Math.cos(angleInRadians),
+      y: centerY + radius * Math.sin(angleInRadians),
     };
   };
 
-  const radius = size / 2;
-  const innerRadius = radius - thickness;
-  
-  const createArcPath = (startAngle, endAngle) => {
-    if (endAngle - startAngle === 360) {
-      return `M ${radius},0 A ${radius},${radius} 0 1,1 ${radius - 0.001},0 Z`;
-    }
-    
-    const start = getCoordinates(startAngle, radius);
-    const end = getCoordinates(endAngle, radius);
-    const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
-    
-    return `M ${start.x},${start.y} A ${radius},${radius} 0 ${largeArcFlag},1 ${end.x},${end.y} L ${end.x},${end.y}`;
-  };
-  
-  const createHolePath = () => {
-    return `M ${radius},${innerRadius} A ${innerRadius},${innerRadius} 0 1,1 ${radius - 0.001},${innerRadius} Z`;
+  const describeArc = (x, y, radius, startAngle, endAngle) => {
+    // Menghindari error jika sudut awal dan akhir sama atau terbalik akibat gap
+    if (endAngle - startAngle <= 0) return null;
+
+    const start = polarToCartesian(x, y, radius, endAngle);
+    const end = polarToCartesian(x, y, radius, startAngle);
+    const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+    return [
+      'M', start.x, start.y,
+      'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+    ].join(' ');
   };
 
-  const centerTextDisplay = centerText || `${Math.round(cumulativePercentage)}%`;
-  const centerSubtextDisplay = centerSubtext || 'Total';
+  const center = size / 2;
+  // Radius kurva disesuaikan agar stroke tidak terpotong viewBox
+  const strokeRadius = (size - thickness) / 2;
+
+  // Nilai default teks tengah jika tidak dikirim via props (mengambil data terbesar/pertama)
+  const defaultMainText = chartData.length > 0 ? `${Math.round((chartData[0].value / total) * 100)}%` : '0%';
+  const defaultSubText = chartData.length > 0 ? chartData[0].label : '';
+
+  const centerTextDisplay = centerText || defaultMainText;
+  const centerSubtextDisplay = centerSubtext || defaultSubText;
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
-        {segments.map((segment, index) => {
-          const { startAngle, endAngle } = segment;
-          const path = createArcPath(startAngle, endAngle);
-          
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        {chartData.map((item, index) => {
+          const percentage = (item.value / total) * 100;
+          const startAngle = cumulativePercentage * 3.6;
+          const endAngle = (cumulativePercentage + percentage) * 3.6;
+          cumulativePercentage += percentage;
+
+          // Terapkan gap (jarak) antar segmen
+          const path = describeArc(
+            center,
+            center,
+            strokeRadius,
+            startAngle + gap,
+            endAngle - gap
+          );
+
           if (!path) return null;
-          
+
           return (
             <path
               key={index}
               d={path}
               fill="none"
-              stroke={segment.color}
+              stroke={item.color}
               strokeWidth={thickness}
               strokeLinecap="round"
               className="transition-all duration-300 cursor-pointer hover:opacity-80"
-              onClick={() => onSegmentClick && onSegmentClick(segment, index)}
+              onClick={() => onSegmentClick && onSegmentClick(item, index)}
             />
           );
         })}
-        
-        {/* Inner circle untuk membuat effect donut */}
-        <path
-          d={createHolePath()}
-          fill="white"
-          stroke="none"
-        />
       </svg>
-      
-      {/* Center text */}
+
+      {/* Teks di Tengah Donut */}
       {showPercentage && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-3xl font-bold text-slate-800">{centerTextDisplay}</p>
+          <p className="text-3xl font-extrabold text-slate-800 tracking-tight">
+            {centerTextDisplay}
+          </p>
           {centerSubtextDisplay && (
-            <p className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">{centerSubtextDisplay}</p>
+            <p className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest mt-1">
+              {centerSubtextDisplay}
+            </p>
           )}
         </div>
       )}
@@ -126,35 +128,47 @@ const DonutChart = ({
   );
 };
 
-// DonutChart dengan Legend
+// Komponen Wrapper: DonutChart dengan Legend
 export const DonutChartWithLegend = ({
   data = [],
-  title,
-  subtitle,
-  size = 180,
-  thickness = 14,
+  title = "Jenis Hewan",
+  subtitle = "Persentase Pasien Aktif",
+  size = 200,
+  thickness = 16,
   showPercentage = true,
+  centerText,
+  centerSubtext,
 }) => {
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-50">
-      <div>
+    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 max-w-sm font-sans">
+      {/* Header Info */}
+      <div className="mb-6">
         {title && <h3 className="text-lg font-bold text-slate-800">{title}</h3>}
-        {subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}
+        {subtitle && <p className="text-sm text-slate-400 mt-1">{subtitle}</p>}
       </div>
-      
-      <div className="flex flex-col items-center mt-6">
-        <DonutChart 
+
+      <div className="flex flex-col items-center">
+        {/* Chart */}
+        <DonutChart
           data={data}
           size={size}
           thickness={thickness}
           showPercentage={showPercentage}
+          centerText={centerText}
+          centerSubtext={centerSubtext}
         />
-        
-        <div className="grid grid-cols-2 gap-4 mt-8 w-full">
+
+        {/* Legend (Flex Row / Horizontal) */}
+        <div className="flex flex-row flex-wrap justify-center gap-6 mt-8 w-full">
           {data.map((item, idx) => (
             <div key={idx} className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-              <span className="text-xs font-bold text-slate-600">{item.label}</span>
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: item.color }}
+              ></div>
+              <span className="text-sm font-semibold text-slate-600">
+                {item.label}
+              </span>
             </div>
           ))}
         </div>

@@ -26,19 +26,20 @@ const Dashboard = () => {
   const handleDateRangeChange = ({ startDate, endDate }) => {
     setDateRange({ startDate, endDate });
     console.log('Date range selected:', { startDate, endDate });
-    // Di sini Anda bisa fetch data berdasarkan date range
+    // TODO: Fetch data berdasarkan date range di sini
   };
 
   return (
-    <div className="p-2 md:p-4">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800">Ringkasan Klinik</h1>
-        <p className="text-sm text-slate-400">Pantau kesehatan Anabul hari ini secara real-time.</p>
-      </div>
-
-      {/* Date Range Picker di Header */}
-      <div className="mb-6 flex justify-end">
-        <div className="w-80">
+    <div className="p-4 md:p-6 lg:p-8 bg-slate-50/50 min-h-screen">
+      {/* HEADER SECTION */}
+      <div className="flex flex-col mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Ringkasan Klinik</h1>
+          <p className="text-sm text-slate-500 mt-1">Pantau kesehatan Anabul hari ini secara real-time.</p>
+        </div>
+        
+        {/* Date Range Picker - Sekarang ada di bawah teks */}
+        <div className="w-full sm:w-80 mt-2">
           <DateRangePicker
             startDate={dateRange.startDate}
             endDate={dateRange.endDate}
@@ -49,24 +50,25 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
-        <StatCard icon="🐕" title="Pasien Anjing" value="42" color="bg-emerald-500" />
-        <StatCard icon="🐈" title="Pasien Kucing" value="128" color="bg-blue-500" />
-        <StatCard icon="💉" title="Vaksinasi" value="15" color="bg-orange-400" />
-        <StatCard icon="💊" title="Stok Obat" value="890" color="bg-indigo-500" />
-        <StatCard icon="🏥" title="Rawat Inap" value="12" color="bg-red-500" />
-        <StatCard icon="✨" title="Grooming" value="24" color="bg-pink-500" />
+      {/* STATS CARDS SECTION */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <StatCard title="Pasien Anjing" value="42" color="bg-emerald-500" />
+        <StatCard title="Pasien Kucing" value="128" color="bg-blue-500" />
+        <StatCard title="Vaksinasi" value="15" color="bg-orange-400" />
+        <StatCard title="Stok Obat" value="890" color="bg-indigo-500" />
+        <StatCard title="Rawat Inap" value="12" color="bg-red-500" />
       </div>
 
       {/* CHART & ANALYTICS SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-50">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        {/* Bar Chart */}
+        <div className="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-lg font-bold">Jumlah Pasien Hewan</h3>
-              <p className="text-xs text-slate-400">Total Kunjungan Mingguan</p>
+              <h3 className="text-lg font-bold text-slate-800">Jumlah Pasien Hewan</h3>
+              <p className="text-xs text-slate-400 mt-1">Total Kunjungan Mingguan</p>
             </div>
-            <span className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg">
+            <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">
               Mei 2026
             </span>
           </div>
@@ -80,9 +82,12 @@ const Dashboard = () => {
           />
         </div>
 
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-50 flex flex-col items-center">
-          <h3 className="text-lg font-bold w-full text-left">Jenis Hewan</h3>
-          <p className="text-xs text-slate-400 w-full text-left mb-6">Persentase Pasien Aktif</p>
+        {/* Donut Chart */}
+        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-center">
+          <div className="w-full text-left mb-6">
+            <h3 className="text-lg font-bold text-slate-800">Jenis Hewan</h3>
+            <p className="text-xs text-slate-400 mt-1">Persentase Pasien Aktif</p>
+          </div>
           
           <DonutChart 
             data={speciesData}
@@ -94,10 +99,10 @@ const Dashboard = () => {
             animate={true}
           />
           
-          <div className="grid grid-cols-2 gap-4 mt-8 w-full">
+          <div className="flex flex-wrap justify-center gap-4 mt-8 w-full">
             {speciesData.map((item, idx) => (
               <div key={idx} className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                <div className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: item.color }}></div>
                 <span className="text-xs font-bold text-slate-600">{item.label}</span>
               </div>
             ))}
@@ -105,18 +110,20 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Tabel Antrian */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-50 overflow-hidden">
-        <div className="p-6 flex justify-between items-center">
+      {/* PATIENT QUEUE TABLE SECTION */}
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+        <div className="p-6 flex justify-between items-center border-b border-slate-50">
           <div>
-            <h3 className="text-lg font-bold">Antrian Pasien Hari Ini</h3>
-            <p className="text-xs text-slate-400">Daftar pemeriksaan yang sedang berjalan</p>
+            <h3 className="text-lg font-bold text-slate-800">Antrian Pasien Hari Ini</h3>
+            <p className="text-xs text-slate-400 mt-1">Daftar pemeriksaan yang sedang berjalan</p>
           </div>
-          <button className="text-emerald-500 text-xs font-bold hover:underline">Lihat Semua</button>
+          <button className="text-emerald-500 text-sm font-bold hover:text-emerald-600 transition-colors">
+            Lihat Semua
+          </button>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left whitespace-nowrap">
             <thead className="bg-slate-50/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4">Nama Pasien (Anabul)</th>
@@ -135,47 +142,59 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
+      
       <Footer />
     </div>
   );
 };
 
-// StatCard Component
-const StatCard = ({ icon, title, value, color }) => (
-  <div className="bg-white p-5 rounded-3xl shadow-sm border border-slate-50 flex flex-col gap-3 hover:translate-y-[-4px] transition-all cursor-default group">
-    <div className={`w-12 h-12 ${color} rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-opacity-20`}>
-      {icon}
-    </div>
+// --- SUB-COMPONENTS ---
+
+const StatCard = ({ title, value, color }) => (
+  <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow cursor-default">
+    {/* Garis aksen tipis di sebelah kiri sebagai penanda warna elegan */}
+    <div className={`absolute top-0 left-0 w-1.5 h-full ${color}`}></div>
+    
     <div>
-      <p className="text-2xl font-black text-slate-800 leading-none">{value}</p>
-      <p className="text-[11px] font-bold text-slate-400 mt-1 uppercase tracking-wider">{title}</p>
+      <p className="text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-wider">{title}</p>
+      <p className="text-3xl font-bold text-slate-800">{value}</p>
     </div>
   </div>
 );
 
-// PatientRow Component
-const PatientRow = ({ name, species, owner, issue, status, sColor, doctor }) => (
-  <tr className="hover:bg-slate-50/50 transition-colors group">
-    <td className="px-6 py-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-lg">
-          {species === 'Kucing' ? '🐈' : species === 'Anjing' ? '🐕' : '🐹'}
+const PatientRow = ({ name, species, owner, issue, status, sColor, doctor }) => {
+  // Menentukan icon secara otomatis berdasarkan jenis hewan
+  const getIcon = (type) => {
+    if (type === 'Kucing') return '🐈';
+    if (type === 'Anjing') return '🐕';
+    return '🐹';
+  };
+
+  return (
+    <tr className="hover:bg-slate-50 transition-colors group">
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-lg shadow-sm">
+            {getIcon(species)}
+          </div>
+          <div>
+            <p className="text-sm font-bold text-slate-800">{name}</p>
+            <p className="text-[10px] text-slate-400 font-medium">{species}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm font-bold text-slate-800">{name}</p>
-          <p className="text-[10px] text-slate-400 font-medium">{species}</p>
-        </div>
-      </div>
-    </td>
-    <td className="px-6 py-4 text-xs font-semibold text-slate-600">{owner}</td>
-    <td className="px-6 py-4 text-xs text-slate-500">{issue}</td>
-    <td className="px-6 py-4">
-      <span className={`${sColor} text-white text-[10px] font-black px-3 py-1 rounded-full uppercase`}>{status}</span>
-    </td>
-    <td className="px-6 py-4">
-      <p className="text-xs font-bold text-slate-700">{doctor}</p>
-    </td>
-  </tr>
-);
+      </td>
+      <td className="px-6 py-4 text-xs font-semibold text-slate-600">{owner}</td>
+      <td className="px-6 py-4 text-xs text-slate-500">{issue}</td>
+      <td className="px-6 py-4">
+        <span className={`${sColor} text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wide`}>
+          {status}
+        </span>
+      </td>
+      <td className="px-6 py-4">
+        <p className="text-xs font-bold text-slate-700">{doctor}</p>
+      </td>
+    </tr>
+  );
+};
 
 export default Dashboard;
