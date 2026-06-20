@@ -5,7 +5,6 @@ import AuthLayout from './layouts/AuthLayout';
 import LoadingSpinner from './components/LoadingSpinner';
 import Components from './pages/Components';
 
-
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Login = lazy(() => import('./pages/auth/LoginPage'));
 const Register = lazy(() => import('./pages/auth/RegisterPage'));
@@ -13,7 +12,7 @@ const Patients = lazy(() => import('./pages/Patients'));
 const PatientDetail = lazy(() => import('./pages/PatientDetail'));
 const Medicines = lazy(() => import('./pages/Medicines'));
 const MedicineDetail = lazy(() => import('./pages/MedicineDetail'));
-
+const GuestDashboard = lazy(() => import('./pages/GuestDashboard'));
 
 const ProtectedRoute = ({ children }) => {
   const auth = sessionStorage.getItem('isLoggedIn');
@@ -31,13 +30,18 @@ function App() {
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
 
+          {/* ================= PUBLIC ROUTES ================= */}
+          {/* Halaman Guest menjadi halaman utama (/) */}
+          <Route path="/" element={<GuestDashboard />} />
+
           {/* Auth Layout */}
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
 
-          {/* Main Layout */}
+          {/* ================= PROTECTED ROUTES ================= */}
+          {/* Main Layout (Hanya bisa diakses jika sudah login) */}
           <Route
             element={
               <ProtectedRoute>
@@ -45,8 +49,8 @@ function App() {
               </ProtectedRoute>
             }
           >
-            {/* Dashboard */}
-            <Route path="/" element={<Dashboard />} />
+            {/* Dashboard Admin sekarang ada di /dashboard */}
+            <Route path="/dashboard" element={<Dashboard />} />
 
             {/* Patients */}
             <Route path="/patients" element={<Patients />} />
@@ -58,7 +62,7 @@ function App() {
             <Route path="/components" element={<Components />} />
           </Route>
 
-          {/* Redirect */}
+          {/* Redirect jika URL tidak ditemukan */}
           <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
