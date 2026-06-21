@@ -2,10 +2,11 @@ import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
+import CustomerLayout from './layouts/CustomerLayout';
 import LoadingSpinner from './components/LoadingSpinner';
 import Components from './pages/Components';
 
-const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const Login = lazy(() => import('./pages/auth/LoginPage'));
 const Register = lazy(() => import('./pages/auth/RegisterPage'));
 const Patients = lazy(() => import('./pages/Patients'));
@@ -13,7 +14,8 @@ const PatientDetail = lazy(() => import('./pages/PatientDetail'));
 const Medicines = lazy(() => import('./pages/Medicines'));
 const MedicineDetail = lazy(() => import('./pages/MedicineDetail'));
 const GuestDashboard = lazy(() => import('./pages/GuestDashboard'));
-
+const CustomerDashboard = lazy(() => import('./pages/customer/CustomerDashboard'));
+const UpgradeMembership = lazy(() => import('./pages/customer/UpgradeMembership'));
 const ProtectedRoute = ({ children }) => {
   const auth = sessionStorage.getItem('isLoggedIn');
 
@@ -33,6 +35,12 @@ function App() {
           {/* ================= PUBLIC ROUTES ================= */}
           {/* Halaman Guest menjadi halaman utama (/) */}
           <Route path="/" element={<GuestDashboard />} />
+          
+          <Route element={<CustomerLayout />}>
+  <Route path="/dashboard" element={<CustomerDashboard />} />
+  <Route path="/upgrade" element={<UpgradeMembership />} />
+</Route>
+
 
           {/* Auth Layout */}
           <Route element={<AuthLayout />}>
@@ -49,8 +57,8 @@ function App() {
               </ProtectedRoute>
             }
           >
-            {/* Dashboard Admin sekarang ada di /dashboard */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<CustomerDashboard />} />
 
             {/* Patients */}
             <Route path="/patients" element={<Patients />} />

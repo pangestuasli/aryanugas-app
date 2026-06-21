@@ -31,6 +31,7 @@ const RegisterPage = () => {
         username,
         password,
         role: 'customer',
+        membership: 'standar'
       },
     ]);
 

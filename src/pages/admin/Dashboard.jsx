@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 // IMPORT SUPABASE CLIENT
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
-import Footer from '../components/Footer';
-import BarChart from '../components/BarChart';
-import DonutChart from '../components/DonutChart';
-import DateRangePicker from '../components/DateRangePicker';
+import Footer from '../../components/Footer';
+import BarChart from '../../components/BarChart';
+import DonutChart from '../../components/DonutChart';
+import DateRangePicker from '../../components/DateRangePicker';
 
 const Dashboard = () => {
   const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });

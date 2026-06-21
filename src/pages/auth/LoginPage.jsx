@@ -53,8 +53,13 @@ const LoginPage = () => {
     sessionStorage.setItem('isLoggedIn', 'true');
     sessionStorage.setItem('user', data.username);
     sessionStorage.setItem('role', data.role);
+    sessionStorage.setItem('membership', data.membership || 'standar');
 
+    if (data.role === 'admin') {  
+    navigate('/admin/dashboard');
+    } else {
     navigate('/dashboard');
+    }
   };
 
   return (

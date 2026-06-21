@@ -65,6 +65,10 @@ const GuestDashboard = () => {
   return (
     <div className="vc-root">
       <style>{`
+        html {
+          scroll-behavior: smooth;
+        }
+
         .vc-root {
           --cream: #F8F4EC;
           --cream-dark: #EFE6D2;
@@ -207,7 +211,10 @@ const GuestDashboard = () => {
         .vc-trust-label { font-size: 12.5px; color: rgba(248,244,236,0.72); margin-top: 4px; }
 
         /* ---------- SECTION HEADERS ---------- */
-        .vc-section { padding: 72px 0; }
+        .vc-section { 
+          padding: 72px 0; 
+          scroll-margin-top: 80px;
+        }
         .vc-section-head { text-align: center; max-width: 560px; margin: 0 auto 44px; }
         .vc-section-head h2 { font-family: 'Fraunces', serif; font-size: clamp(28px, 3vw, 36px); color: var(--ink); margin: 10px 0 10px; font-weight: 600; }
         .vc-section-head p { color: var(--text-soft); font-size: 15.5px; }
@@ -481,10 +488,11 @@ const GuestDashboard = () => {
               <MapPin size={22} /> &nbsp; Peta lokasi klinik
             </div>
             <p>
-              Jl. Raya Kebon Binatang No. 123,<br />
-              Kota Pecinta Satwa, Indonesia
+              Jl. Segar Asli Pekanbaru,<br />
+              Kota Pekanbaru, Riau 28123<br />
+              Indonesia
             </p>
-            <div className="vc-phone"><Phone size={15} /> (021) 555-1234 — Kontak Darurat</div>
+            <div className="vc-phone"><Phone size={15} /> 083187781275 — Kontak Darurat</div>
           </div>
         </div>
       </section>
@@ -509,9 +517,9 @@ const GuestDashboard = () => {
             <div>
               <h4>Kontak</h4>
               <ul>
-                <li>Jl. Raya Kebon Binatang No. 123</li>
-                <li>(021) 555-1234</li>
-                <li>halo@vetcareclinic.id</li>
+                <li>Jl. Segar Asli Pekanbaru</li>
+                <li>083187781275</li>
+                <li>arya@gmail.com</li>
               </ul>
             </div>
           </div>
