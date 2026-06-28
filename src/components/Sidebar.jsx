@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from '../lib/AuthContext';
 
 // Penambahan ikon SVG (Logo Paw & Logout) agar lebih profesional tanpa emoji
 const Icons = {
@@ -18,6 +19,21 @@ const Icons = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.022.547l-2.387 2.387a2 2 0 000 2.828l.318.318a2 2 0 002.828 0l2.387-2.387z" />
     </svg>
   ),
+  Doctor: () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+  ),
+  Campaign: () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+    </svg>
+  ),
+  Feedback: () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+    </svg>
+  ),
   Paw: () => (
     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
       <path d="M8.5 7c-1.38 0-2.5 1.12-2.5 2.5S7.12 12 8.5 12 11 10.88 11 9.5 9.88 7 8.5 7zM15.5 7c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5S16.88 7 15.5 7zM5 12.5C3.34 12.5 2 13.84 2 15.5S3.34 18.5 5 18.5 8 17.16 8 15.5 6.66 12.5 5 12.5zm14 0c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm-7-2c-2.48 0-4.5 2.02-4.5 4.5 0 2.22 1.63 4.05 3.76 4.42.24.04.48.08.74.08 2.48 0 4.5-2.02 4.5-4.5S14.48 10.5 12 10.5z" />
@@ -32,17 +48,20 @@ const Icons = {
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const menuItems = [
-    { name: "Dashboard", path: "/", icon: <Icons.Dashboard />, section: "DASHBOARD" },
+    { name: "Dashboard", path: "/admin/dashboard", icon: <Icons.Dashboard />, section: "DASHBOARD" },
     { name: "Pasien Hewan", path: "/patients", icon: <Icons.Patient />, section: "RECORDS" },
     { name: "Stok Obat", path: "/medicines", icon: <Icons.Medicine />, section: "RECORDS" },
+    { name: "Dokter", path: "/admin/doctors", icon: <Icons.Doctor />, section: "MANAGEMENT" },
+    { name: "Campaign", path: "/admin/campaigns", icon: <Icons.Campaign />, section: "MANAGEMENT" },
+    { name: "Feedback", path: "/admin/feedback", icon: <Icons.Feedback />, section: "MANAGEMENT" },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("token"); 
-    localStorage.removeItem("user"); 
-    navigate("/login"); 
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
   };
 
   return (

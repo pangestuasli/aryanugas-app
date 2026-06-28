@@ -492,7 +492,7 @@ const GuestDashboard = () => {
         <div className="vc-nav-inner vc-wrap" style={{ padding: '16px 0' }}>
           <div className="vc-logo">
             <span className="vc-logo-mark">🐾</span>
-            VetCare Clinic
+            Arya Pet Care
           </div>
           <div className="vc-nav-links">
             <a className="vc-nav-link" href="#services">Layanan</a>

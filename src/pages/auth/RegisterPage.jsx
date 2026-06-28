@@ -25,6 +25,7 @@ const RegisterPage = () => {
 
     setLoading(true);
 
+    // KEMBALI KE SISTEM LAMA: Memasukkan data langsung ke tabel 'users'
     const { error } = await supabase.from('users').insert([
       {
         fullname,

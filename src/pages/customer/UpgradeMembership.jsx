@@ -21,11 +21,20 @@ const UpgradeMembership = () => {
   const handleUpgrade = async () => {
     setLoading(true);
     setErrorMsg('');
+    
+    // KEMBALI KE SISTEM LAMA: Ambil username dari session
     const username = sessionStorage.getItem('user');
+
+    if (!username) {
+      setErrorMsg('Anda harus login terlebih dahulu.');
+      setLoading(false);
+      return;
+    }
 
     const expiresAt = new Date();
     expiresAt.setMonth(expiresAt.getMonth() + 1);
 
+    // KEMBALI KE SISTEM LAMA: Update langsung ke tabel 'users' berdasarkan username
     const { error } = await supabase
       .from('users')
       .update({
@@ -41,8 +50,12 @@ const UpgradeMembership = () => {
       return;
     }
 
+    // Update session storage agar navbar dan dashboard langsung sinkron
     sessionStorage.setItem('membership', 'prioritas');
+    
+    // Kembali ke dashboard dan refresh halaman agar status ter-update
     navigate('/dashboard');
+    window.location.reload(); 
   };
 
   return (

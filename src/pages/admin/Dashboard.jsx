@@ -18,6 +18,9 @@ const Dashboard = () => {
     totalAntri: 0,
     totalPerawatan: 0,
     totalSelesai: 0,
+    totalDoctors: 0,
+    totalAppointments: 0,
+    totalFeedbacks: 0,
   });
   
   const [speciesData, setSpeciesData] = useState([]);
@@ -38,11 +41,19 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
+      // Fetch patients data
       const { data: patients, error } = await supabase
         .from('patients')
         .select('*');
 
       if (error) throw error;
+
+      // Fetch new data: doctors, appointments, feedbacks
+      const [doctorsRes, appointmentsRes, feedbacksRes] = await Promise.all([
+        supabase.from('doctors').select('id').eq('is_active', true),
+        supabase.from('appointments').select('id'),
+        supabase.from('feedbacks').select('id'),
+      ]);
 
       if (patients) {
         let cats = 0;
@@ -76,6 +87,9 @@ const Dashboard = () => {
           totalAntri: antri,
           totalPerawatan: perawatan,
           totalSelesai: selesai,
+          totalDoctors: doctorsRes.data?.length || 0,
+          totalAppointments: appointmentsRes.data?.length || 0,
+          totalFeedbacks: feedbacksRes.data?.length || 0,
         });
 
         setSpeciesData([
@@ -137,12 +151,15 @@ const Dashboard = () => {
       </div>
 
       {/* STATS CARDS SECTION (Dinamis dari Supabase) */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
         <StatCard title="Pasien Kucing" value={stats.totalCats} color="bg-emerald-500" />
         <StatCard title="Pasien Anjing" value={stats.totalDogs} color="bg-amber-500" />
         <StatCard title="Status Antri" value={stats.totalAntri} color="bg-orange-400" />
         <StatCard title="Dalam Perawatan" value={stats.totalPerawatan} color="bg-blue-500" />
-        <StatCard title="Selesai Diperiksa" value={stats.totalSelesai} color="bg-indigo-500" />
+        <StatCard title="Selesai" value={stats.totalSelesai} color="bg-indigo-500" />
+        <StatCard title="Dokter Aktif" value={stats.totalDoctors} color="bg-teal-500" />
+        <StatCard title="Booking" value={stats.totalAppointments} color="bg-purple-500" />
+        <StatCard title="Feedback" value={stats.totalFeedbacks} color="bg-pink-500" />
       </div>
 
       {/* CHART & ANALYTICS SECTION */}
