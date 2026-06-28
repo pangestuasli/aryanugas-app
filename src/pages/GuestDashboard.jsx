@@ -12,9 +12,18 @@ import {
   Crown,
   ArrowRight,
   ShieldCheck,
+  Calendar,
+  FileText,
+  Award,
 } from 'lucide-react';
-// Jika Anda menggunakan react-router-dom untuk navigasi
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import {
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from '../components/ui/accordion';
+
+// =============================================================
+// MOCK DATA (Static - No Supabase fetch)
+// =============================================================
 
 const services = [
   {
@@ -43,6 +52,88 @@ const services = [
   },
 ];
 
+const memberFeatures = [
+  {
+    icon: Calendar,
+    title: 'Booking Online Fleksibel',
+    desc: 'Buat janji temu kapan saja, 24/7. Pilih dokter & waktu sesuai keinginanmu tanpa perlu antre.',
+  },
+  {
+    icon: FileText,
+    title: 'Rekam Medis Digital Lengkap',
+    desc: 'Semua riwayat kesehatan anabul tersimpan rapi dan bisa diakses kapan saja dari mana saja.',
+  },
+  {
+    icon: Award,
+    title: 'Program Loyalitas & Poin',
+    desc: 'Kumpulkan poin dari setiap kunjungan. Naik tier dan nikmati diskon hingga 20% untuk semua layanan.',
+  },
+];
+
+const campaigns = [
+  {
+    title: 'Vaksinasi Diskon 10%',
+    desc: 'Khusus member baru di bulan ini. Lindungi anabul dengan vaksinasi lengkap harga terjangkau.',
+    badge: 'Member Baru',
+  },
+  {
+    title: 'Grooming Paket Hemat',
+    desc: 'Mandikan dan percantik anabul dengan paket grooming mulai dari Rp75.000 saja.',
+    badge: 'Promo',
+  },
+  {
+    title: 'Konsultasi Pertama GRATIS',
+    desc: 'Member baru bisa konsultasi pertama tanpa biaya. Kenalan dulu dengan dokter kami.',
+    badge: 'Gratis',
+  },
+];
+
+const doctors = [
+  { name: 'drh. Sarah Wijaya', spec: 'Bedah & Ortopedi', initials: 'SW' },
+  { name: 'drh. Andi Pratama', spec: 'Penyakit Dalam & Vaksinasi', initials: 'AP' },
+  { name: 'drh. Maya Putri', spec: 'Dermatologi & Grooming', initials: 'MP' },
+];
+
+const testimonials = [
+  {
+    name: 'Budi & Kucingnya',
+    initials: 'BK',
+    rating: 5,
+    comment: 'Dokternya ramah, sistem bookingnya sangat mudah! Anabul saya selalu ditangani dengan profesional.',
+  },
+  {
+    name: 'Rina & Anjing Poodle',
+    initials: 'RA',
+    rating: 5,
+    comment: 'Rekam medis digital sangat membantu. Saya bisa lihat riwayat kesehatan anabul kapan saja. Recommended!',
+  },
+  {
+    name: 'Doni & Kelinci Holland',
+    initials: 'DH',
+    rating: 5,
+    comment: 'Poin loyalitasnya benar-benar worth it. Sudah dapat diskon 15% untuk grooming bulan lalu.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Apakah mendaftar member berbayar?',
+    a: 'Tidak! Mendaftar sebagai member sepenuhnya GRATIS. Anda langsung mendapatkan akses ke booking online, rekam medis digital, dan program poin loyalitas.',
+  },
+  {
+    q: 'Bagaimana cara mendapatkan diskon 20%?',
+    a: 'Kumpulkan poin dari setiap kunjungan ke klinik. Setelah mencapai tier Platinum (1500+ poin), Anda otomatis mendapatkan diskon 20% untuk semua layanan.',
+  },
+  {
+    q: 'Apakah bisa ubah jadwal booking?',
+    a: 'Tentu saja! Anda bisa membatalkan atau mengubah jadwal booking melalui halaman dashboard member. Kami sangat fleksibel.',
+  },
+  {
+    q: 'Apakah data kesehatan anabul saya aman?',
+    a: 'Ya, semua data medis tersimpan aman di sistem kami dan hanya bisa diakses oleh Anda dan tim dokter yang menangani. Privasi adalah prioritas kami.',
+  },
+];
+
 const standardPerks = [
   'Booking jadwal kunjungan online',
   'Riwayat kunjungan dasar',
@@ -58,6 +149,10 @@ const priorityPerks = [
   'Home visit gratis, 2x setahun',
   'Kartu anggota digital + fisik bertanda gold',
 ];
+
+// =============================================================
+// COMPONENT
+// =============================================================
 
 const GuestDashboard = () => {
   const year = new Date().getFullYear();
@@ -238,6 +333,79 @@ const GuestDashboard = () => {
         .vc-svc-card h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
         .vc-svc-card p { font-size: 13.5px; line-height: 1.6; color: var(--text-soft); }
 
+        /* ---------- MEMBER FEATURES (NEW) ---------- */
+        .vc-features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .vc-feat-card {
+          background: #fff; border: 1px solid var(--line); border-radius: 12px;
+          padding: 28px 24px; text-align: center;
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .vc-feat-card:hover { transform: translateY(-4px); box-shadow: 0 16px 30px -14px rgba(31,58,46,0.22); }
+        .vc-feat-icon {
+          width: 52px; height: 52px; border-radius: 12px; background: var(--cream-dark);
+          color: var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+        }
+        .vc-feat-card h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+        .vc-feat-card p { font-size: 13.5px; line-height: 1.6; color: var(--text-soft); }
+
+        /* ---------- CAMPAIGNS (NEW) ---------- */
+        .vc-campaigns-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .vc-campaign-card {
+          position: relative; background: #fff; border: 2px solid var(--gold-light);
+          border-radius: 12px; padding: 24px; transition: border-color 0.18s ease;
+        }
+        .vc-campaign-card:hover { border-color: var(--gold); }
+        .vc-campaign-badge {
+          display: inline-block; background: var(--gold-light); color: var(--gold);
+          font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+          text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px;
+        }
+        .vc-campaign-card h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+        .vc-campaign-card p { font-size: 13.5px; line-height: 1.6; color: var(--text-soft); margin-bottom: 14px; }
+        .vc-campaign-link { font-size: 13px; font-weight: 700; color: var(--green); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .vc-campaign-link:hover { color: var(--green-dark); }
+
+        /* ---------- DOCTORS (NEW) ---------- */
+        .vc-doctors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; max-width: 780px; margin: 0 auto; }
+        .vc-doctor-card {
+          background: #fff; border: 1px solid var(--line); border-radius: 12px;
+          padding: 28px 20px; text-align: center;
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .vc-doctor-card:hover { transform: translateY(-4px); box-shadow: 0 16px 30px -14px rgba(31,58,46,0.22); }
+        .vc-doctor-avatar {
+          width: 64px; height: 64px; border-radius: 50%; background: var(--cream-dark);
+          color: var(--green); display: flex; align-items: center; justify-content: center;
+          font-size: 20px; font-weight: 800; margin: 0 auto 14px;
+        }
+        .vc-doctor-card h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .vc-doctor-card p { font-size: 13px; color: var(--text-soft); }
+
+        /* ---------- TESTIMONIALS (NEW) ---------- */
+        .vc-testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .vc-testimonial-card {
+          background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 24px;
+        }
+        .vc-testimonial-stars { display: flex; gap: 2px; margin-bottom: 12px; }
+        .vc-testimonial-card blockquote { font-size: 14px; line-height: 1.65; color: var(--text-soft); font-style: italic; margin-bottom: 14px; }
+        .vc-testimonial-author { display: flex; align-items: center; gap: 10px; }
+        .vc-testimonial-avatar {
+          width: 32px; height: 32px; border-radius: 50%; background: var(--green);
+          color: var(--cream); display: flex; align-items: center; justify-content: center;
+          font-size: 11px; font-weight: 800;
+        }
+        .vc-testimonial-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+        /* ---------- FAQ (NEW) ---------- */
+        .vc-faq-wrap { max-width: 720px; margin: 0 auto; }
+        .vc-faq-item {
+          background: #fff; border: 1px solid var(--line); border-radius: 12px;
+          padding: 0 20px; margin-bottom: 12px;
+        }
+        .vc-faq-item button { color: var(--ink) !important; font-weight: 600 !important; }
+        .vc-faq-item button:hover { text-decoration: none !important; }
+        .vc-faq-item button[data-state="open"] { text-decoration: none !important; }
+
         /* ---------- PREMIUM ---------- */
         .vc-premium { background: var(--cream-dark); }
         .vc-plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 880px; margin: 0 auto; align-items: stretch; }
@@ -259,7 +427,7 @@ const GuestDashboard = () => {
           background: var(--gold-light); padding: 5px 12px; border-radius: 999px; width: fit-content; margin-bottom: 16px;
         }
         .vc-plan-priority .vc-plan-badge { background: rgba(239,224,188,0.16); color: var(--gold-light); }
-        .vc-plan h3 { font-family: 'Fraunces', serif; font-size: 23px; font-weight: 600; margin-bottom: 4px; }
+        .vc-plan h3 { font-family: 'Fraunces', serif; font-size: 23px; font-weight: 600; margin-bottom: 0; }
         .vc-plan-price { font-size: 32px; font-weight: 800; margin: 14px 0 4px; }
         .vc-plan-price span { font-size: 14px; font-weight: 600; opacity: 0.65; }
         .vc-plan-sub { font-size: 13px; opacity: 0.7; margin-bottom: 22px; }
@@ -306,6 +474,7 @@ const GuestDashboard = () => {
         @media (max-width: 860px) {
           .vc-hero-grid, .vc-info-grid, .vc-plans-grid, .vc-footer-grid { grid-template-columns: 1fr; }
           .vc-services-grid { grid-template-columns: repeat(2, 1fr); }
+          .vc-features-grid, .vc-campaigns-grid, .vc-doctors-grid, .vc-testimonials-grid { grid-template-columns: 1fr; }
           .vc-trust-grid { grid-template-columns: 1fr; gap: 16px; }
           .vc-nav-links { display: none; }
           .vc-record { transform: rotate(0deg); max-width: 100%; }
@@ -314,7 +483,7 @@ const GuestDashboard = () => {
           .vc-services-grid { grid-template-columns: 1fr; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .vc-btn, .vc-svc-card, .vc-plan-cta { transition: none; }
+          .vc-btn, .vc-svc-card, .vc-plan-cta, .vc-feat-card, .vc-doctor-card { transition: none; }
         }
       `}</style>
 
@@ -327,13 +496,16 @@ const GuestDashboard = () => {
           </div>
           <div className="vc-nav-links">
             <a className="vc-nav-link" href="#services">Layanan</a>
+            <a className="vc-nav-link" href="#features">Keuntungan</a>
+            <a className="vc-nav-link" href="#promo">Promo</a>
+            <a className="vc-nav-link" href="#testimoni">Testimoni</a>
+            <a className="vc-nav-link" href="#faq">FAQ</a>
             <a className="vc-nav-link" href="#premium">Prioritas</a>
             <a className="vc-nav-link" href="#info">Jam &amp; Lokasi</a>
-            <a className="vc-pill" href="#premium"><Crown size={13} /> Premium</a>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <a className="vc-btn vc-btn-ghost" href="/login">Masuk</a>
-            <a className="vc-btn vc-btn-primary" href="/register">Daftar</a>
+            <Link className="vc-btn vc-btn-ghost" to="/login">Masuk</Link>
+            <Link className="vc-btn vc-btn-primary" to="/register">Daftar</Link>
           </div>
         </div>
       </nav>
@@ -352,9 +524,9 @@ const GuestDashboard = () => {
               anabul kesayangan Anda.
             </p>
             <div className="vc-hero-ctas">
-              <a className="vc-btn vc-btn-primary" href="/register">
+              <Link className="vc-btn vc-btn-primary" to="/register">
                 Daftar Sekarang <ArrowRight size={16} />
-              </a>
+              </Link>
               <a className="vc-btn vc-btn-ghost" href="#services">Lihat Layanan</a>
             </div>
             <div className="vc-trustline">
@@ -432,6 +604,117 @@ const GuestDashboard = () => {
         </div>
       </section>
 
+      {/* MEMBER FEATURES (NEW - v3) */}
+      <section id="features" className="vc-section" style={{ background: 'var(--cream-dark)' }}>
+        <div className="vc-wrap">
+          <div className="vc-section-head">
+            <span className="vc-eyebrow">Keuntungan Member</span>
+            <h2 className="vc-display">Semua yang anabul Anda butuhkan, dalam satu sistem</h2>
+            <p>Daftar sebagai member dan nikmati fitur eksklusif yang memudahkan perawatan anabul.</p>
+          </div>
+          <div className="vc-features-grid">
+            {memberFeatures.map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="vc-feat-card">
+                <div className="vc-feat-icon"><Icon size={24} /></div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CAMPAIGNS / PROMO (NEW - v3) */}
+      <section id="promo" className="vc-section">
+        <div className="vc-wrap">
+          <div className="vc-section-head">
+            <span className="vc-eyebrow">Promo Spesial</span>
+            <h2 className="vc-display">Penawaran menarik untuk anabul Anda</h2>
+            <p>Jangan lewatkan promo-promo terbaik untuk member baru dan lama.</p>
+          </div>
+          <div className="vc-campaigns-grid">
+            {campaigns.map((item) => (
+              <div key={item.title} className="vc-campaign-card">
+                <span className="vc-campaign-badge">{item.badge}</span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+                <Link className="vc-campaign-link" to="/register">
+                  Daftar untuk klaim <ArrowRight size={14} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DOCTORS PREVIEW (NEW - v3) */}
+      <section id="dokter" className="vc-section" style={{ background: 'var(--cream-dark)' }}>
+        <div className="vc-wrap">
+          <div className="vc-section-head">
+            <span className="vc-eyebrow">Tim Profesional</span>
+            <h2 className="vc-display">Dokter hewan berpengalaman &amp; bersertifikat</h2>
+            <p>Tim dokter kami siap memberikan penanganan terbaik untuk anabul Anda.</p>
+          </div>
+          <div className="vc-doctors-grid">
+            {doctors.map((doc) => (
+              <div key={doc.name} className="vc-doctor-card">
+                <div className="vc-doctor-avatar">{doc.initials}</div>
+                <h3>{doc.name}</h3>
+                <p>{doc.spec}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS (NEW - v3) */}
+      <section id="testimoni" className="vc-section">
+        <div className="vc-wrap">
+          <div className="vc-section-head">
+            <span className="vc-eyebrow">Testimoni</span>
+            <h2 className="vc-display">Apa kata member kami?</h2>
+            <p>Cerita nyata dari para pemilik hewan yang sudah mempercayakan anabul mereka kepada kami.</p>
+          </div>
+          <div className="vc-testimonials-grid">
+            {testimonials.map((t) => (
+              <div key={t.name} className="vc-testimonial-card">
+                <div className="vc-testimonial-stars">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star key={i} size={16} fill="#C1693C" color="#C1693C" />
+                  ))}
+                </div>
+                <blockquote>"{t.comment}"</blockquote>
+                <div className="vc-testimonial-author">
+                  <div className="vc-testimonial-avatar">{t.initials}</div>
+                  <span className="vc-testimonial-name">{t.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ (NEW - v3) */}
+      <section id="faq" className="vc-section" style={{ background: 'var(--cream-dark)' }}>
+        <div className="vc-wrap">
+          <div className="vc-section-head">
+            <span className="vc-eyebrow">FAQ</span>
+            <h2 className="vc-display">Pertanyaan yang sering ditanyakan</h2>
+            <p>Temukan jawaban untuk pertanyaan umum seputar layanan dan membership kami.</p>
+          </div>
+          <div className="vc-faq-wrap">
+            <Accordion type="single" collapsible>
+              {faqs.map((faq, i) => (
+                <AccordionItem key={i} value={`item-${i}`} className="vc-faq-item">
+                  <AccordionTrigger>{faq.q}</AccordionTrigger>
+                  <AccordionContent>{faq.a}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* PREMIUM */}
       <section id="premium" className="vc-section vc-premium">
         <div className="vc-wrap">
@@ -452,7 +735,7 @@ const GuestDashboard = () => {
                   <li key={p}><Check size={16} />{p}</li>
                 ))}
               </ul>
-              <a className="vc-plan-cta" href="/register">Daftar Gratis</a>
+              <Link className="vc-plan-cta" to="/register">Daftar Gratis</Link>
             </div>
 
             <div className="vc-plan vc-plan-priority">
@@ -465,9 +748,9 @@ const GuestDashboard = () => {
                   <li key={p}><Check size={16} />{p}</li>
                 ))}
               </ul>
-              <a className="vc-plan-cta" href="/register?plan=prioritas">
+              <Link className="vc-plan-cta" to="/register?plan=prioritas">
                 Mulai Prioritas <ArrowRight size={16} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
